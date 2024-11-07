@@ -9,11 +9,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Database, MoveUp, RefreshCcw } from "lucide-react";
+import { Database, LucideLoader2, MoveUp, RefreshCcw } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
-type Props = {};
 
-const VectorDbPage = (props: Props) => {
+const VectorDbPage = () => {
     const [isUploading, setIsUploading] = useState(false);
   return (
     <div className="flex flex-col items-center p-24">
@@ -75,10 +75,17 @@ const VectorDbPage = (props: Props) => {
             disabled={isUploading}
             >
               <span className="flex flex-row">
-                <Database size={50}/>
+                <Database size={50} className="stroke-[#D90013]"/>
                 <MoveUp className="stroke-[#D90013]"/>
               </span>
             </Button>
+          </div>
+          <div className="mt-4">
+            <label>File Name:</label>
+            <div className="flex flex-row items-center gap-4">
+                <Progress value={80}/>
+                <LucideLoader2 className="stroke-[#D90013] animate-spin"/>
+            </div>
           </div>
         </CardContent>
       </Card>
