@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,23 +9,32 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Database, RefreshCcw } from "lucide-react";
+import { Database, MoveUp, RefreshCcw } from "lucide-react";
 
 type Props = {};
 
 const VectorDbPage = (props: Props) => {
+    const [isUploading, setIsUploading] = useState(false);
   return (
     <div className="flex flex-col items-center p-24">
       <Card>
         <CardHeader>
-          <CardTitle>Update Knowledge Base</CardTitle>
-          <CardDescription>Add new documents to vector DB</CardDescription>
+        <CardTitle>
+            Update Knowledge Base
+        </CardTitle>
+        <CardDescription>
+            Add new documents to vector DB
+        </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-4">
             <div className="col-span-2 grid gap-4 border rounded-lg p-6">
                 <div className="gap-4 relative">
-                    <Button className="absolute -right-4 -top-4" variant={"ghost"} size={"icon"}>
+                    <Button 
+                    className="absolute -right-4 -top-4" 
+                    variant={"ghost"} 
+                    size={"icon"}
+                    >
                         <RefreshCcw/>
                     </Button>
                     <label>
@@ -39,19 +50,34 @@ const VectorDbPage = (props: Props) => {
                         <label>
                             Index name
                         </label>
-                        <input placeholder="index name"/>
+                        <input 
+                        placeholder="index name"
+                        disabled={isUploading}
+                        className="disabled:cursor-default"
+                        />
                         
                     </div>
                     <div className="grid gap-2">
                         <label>
                             Namespace
                         </label>
-                        <input placeholder="namespace"/>
+                        <input 
+                        placeholder="namespace"
+                        disabled={isUploading}
+                        className="disabled:cursor-default"
+                        />
                     </div>
                 </div>
             </div>
-            <Button variant={"outline"} className="w-full h-full">
-              <Database size={50} />
+            <Button 
+            variant={"outline"} 
+            className="w-full h-full" 
+            disabled={isUploading}
+            >
+              <span className="flex flex-row">
+                <Database size={50}/>
+                <MoveUp className="stroke-[#D90013]"/>
+              </span>
             </Button>
           </div>
         </CardContent>
