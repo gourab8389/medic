@@ -27,7 +27,6 @@ const FileUploadCard = () => {
         }),
     })
     console.log(response);
-    
   };
 
   return (
