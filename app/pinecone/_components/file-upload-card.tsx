@@ -14,8 +14,22 @@ import { Database, LucideLoader2, MoveUp, RefreshCcw } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 const FileUploadCard = () => {
-    const [isUploading, setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [indexName, setIndexName] = useState("");
+  const [namespace, setNamespace] = useState("");
+
+  const onStartUpload = async () => {
+    const response = await fetch(`api/updatedatabase`,{
+        method: "POST",
+        body: JSON.stringify({
+            indexName,
+            namespace,
+        }),
+    })
+    console.log(response);
     
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -43,17 +57,21 @@ const FileUploadCard = () => {
               <div className="grid gap-2">
                 <label>Index name</label>
                 <input
+                  value={indexName}
+                  onChange={(e) => setIndexName(e.target.value)}
                   placeholder="index name"
                   disabled={isUploading}
-                  className="disabled:cursor-default"
+                  className="disabled:cursor-default border p-2 rounded-md"
                 />
               </div>
               <div className="grid gap-2">
                 <label>Namespace</label>
                 <input
+                  value={namespace}
+                  onChange={(e) => setNamespace(e.target.value)}
                   placeholder="namespace"
                   disabled={isUploading}
-                  className="disabled:cursor-default"
+                  className="disabled:cursor-default border p-2 rounded-md"
                 />
               </div>
             </div>
@@ -62,20 +80,23 @@ const FileUploadCard = () => {
             variant={"outline"}
             className="w-full h-full"
             disabled={isUploading}
+            onClick={onStartUpload}
           >
             <span className="flex flex-row">
-              <Database size={50} className="stroke-[#D90013]" />
+              <Database size={100} className="stroke-[#D90013]" />
               <MoveUp className="stroke-[#D90013]" />
             </span>
           </Button>
         </div>
-        <div className="mt-4">
-          <label>File Name:</label>
-          <div className="flex flex-row items-center gap-4">
-            <Progress value={80} />
-            <LucideLoader2 className="stroke-[#D90013] animate-spin" />
+        {isUploading && (
+          <div className="mt-4">
+            <label>File Name:</label>
+            <div className="flex flex-row items-center gap-4">
+              <Progress value={80} />
+              <LucideLoader2 className="stroke-[#D90013] animate-spin" />
+            </div>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );
