@@ -28,12 +28,16 @@ const VectorDBPage = (props: Props) => {
   const onFileListRefresh = async () => {
     setfileListAsText("");
     const response = await fetch("api/getfilelist", { method: "GET" });
-    const filenames = await response.json();
-    console.log(filenames);
-    const resultString = (filenames as [])
-      .map((filename) => `📄 ${filename}`)
-      .join("\n");
-    setfileListAsText(resultString);
+    try {
+      const filenames = await response.json();
+      console.log(filenames);
+      const resultString = (filenames as [])
+        .map((filename) => `📄 ${filename}`)
+        .join("\n");
+      setfileListAsText(resultString);
+    } catch (error) {
+      throw new Error("Error fetching file list: " + error);
+    }
   };
 
   const onStartUpload = async () => {
@@ -47,6 +51,10 @@ const VectorDBPage = (props: Props) => {
         namespace,
       }),
     });
+    if(!response.body) {
+      console.error("Response body was not found");
+      return;
+    }
     console.log(response);
     await processStreamedProgress(response);
   };
